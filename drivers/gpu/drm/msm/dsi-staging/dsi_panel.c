@@ -4704,7 +4704,7 @@ error:
 int dsi_panel_apply_hbm_mode(struct dsi_panel *panel)
 {
 	static const enum dsi_cmd_set_type type_map[] = {
-#ifdef CONFIG_MACH_XIAOMI_F10
+#if (defined CONFIG_MACH_XIAOMI_F4) || (defined CONFIG_MACH_XIAOMI_F10)
 		DSI_CMD_SET_DISP_HBM_FOD_OFF,
 		DSI_CMD_SET_DISP_HBM_FOD_ON
 #else
@@ -4720,7 +4720,7 @@ int dsi_panel_apply_hbm_mode(struct dsi_panel *panel)
 	if (panel->hbm_mode >= 0 && panel->hbm_mode < ARRAY_SIZE(type_map))
 		type = type_map[panel->hbm_mode];
   else
-#ifdef CONFIG_MACH_XIAOMI_F10
+#if (defined CONFIG_MACH_XIAOMI_F4) || (defined CONFIG_MACH_XIAOMI_F10)
 		type = DSI_CMD_SET_DISP_HBM_FOD_OFF;
 #else
 		type = DSI_CMD_SET_DISP_LCD_HBM_OFF;
