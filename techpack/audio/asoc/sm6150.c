@@ -8577,7 +8577,7 @@ static struct snd_soc_card *populate_snd_card_dailinks(struct device *dev)
 			if (mi2s_audio_intf) {
 				hw_platform = get_hw_version_platform();
 				dev_info(dev, "%s: hw_platform is %d.\n", __func__, hw_platform);
-				if (HARDWARE_PLATFORM_DAVINCI == hw_platform || HARDWARE_PLATFORM_TUCANA == hw_platform || HARDWARE_PLATFORM_PHOENIX == hw_platform) {
+				if (HARDWARE_PLATFORM_DAVINCI == hw_platform) {
 					dev_info(dev, "%s: hardware is %d.\n", __func__, hw_platform);
 					msm_mi2s_be_dai_links[0].codec_name = "tfa98xx.3-0034";
 					msm_mi2s_be_dai_links[0].codec_dai_name = "tfa98xx-aif-3-34";
