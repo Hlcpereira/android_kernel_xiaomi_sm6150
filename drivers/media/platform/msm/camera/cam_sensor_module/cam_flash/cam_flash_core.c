@@ -1,4 +1,5 @@
 /* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
+ * Copyright (C) 2021 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -781,7 +782,7 @@ int cam_flash_i2c_apply_setting(struct cam_flash_ctrl *fctrl,
 				list) {
 				rc = cam_sensor_util_i2c_apply_setting
 					(&(fctrl->io_master_info), i2c_list);
-				if (rc) {
+				if (rc < 0) {
 					CAM_ERR(CAM_FLASH,
 					"Failed to apply init settings: %d",
 					rc);
@@ -796,7 +797,7 @@ int cam_flash_i2c_apply_setting(struct cam_flash_ctrl *fctrl,
 				list) {
 				rc = cam_sensor_util_i2c_apply_setting
 					(&(fctrl->io_master_info), i2c_list);
-				if (rc) {
+				if (rc < 0) {
 					CAM_ERR(CAM_FLASH,
 					"Failed to apply NRT settings: %d", rc);
 					return rc;
@@ -813,7 +814,7 @@ int cam_flash_i2c_apply_setting(struct cam_flash_ctrl *fctrl,
 				&(i2c_set->list_head), list) {
 				rc = cam_sensor_util_i2c_apply_setting(
 					&(fctrl->io_master_info), i2c_list);
-				if (rc) {
+				if (rc < 0) {
 					CAM_ERR(CAM_FLASH,
 					"Failed to apply settings: %d", rc);
 					return rc;
@@ -823,7 +824,7 @@ int cam_flash_i2c_apply_setting(struct cam_flash_ctrl *fctrl,
 	}
 
 	cam_flash_i2c_delete_req(fctrl, req_id);
-	return rc;
+	return 0;
 }
 
 int cam_flash_pmic_apply_setting(struct cam_flash_ctrl *fctrl,

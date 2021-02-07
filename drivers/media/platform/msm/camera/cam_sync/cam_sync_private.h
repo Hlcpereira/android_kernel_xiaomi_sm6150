@@ -1,4 +1,5 @@
 /* Copyright (c) 2017-2019, The Linux Foundation. All rights reserved.
+ * Copyright (C) 2021 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -31,11 +32,16 @@
 #endif
 
 #define CAM_SYNC_OBJ_NAME_LEN           64
+<<<<<<< HEAD
 #ifdef CONFIG_MACH_XIAOMI_SDMMAGPIE
 #define CAM_SYNC_MAX_OBJS               1280
 #else
 #define CAM_SYNC_MAX_OBJS               1024
 #endif
+=======
+#define CAM_SYNC_MAX_OBJS               1600
+//#define CAM_SYNC_MAX_OBJS               1024
+>>>>>>> e56f393482c5... Add drivers/media/platform/msm/ modifications
 #define CAM_SYNC_MAX_V4L2_EVENTS        50
 #define CAM_SYNC_DEBUG_FILENAME         "cam_debug"
 #define CAM_SYNC_DEBUG_BASEDIR          "cam"

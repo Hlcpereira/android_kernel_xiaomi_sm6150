@@ -1,4 +1,5 @@
 /* Copyright (c) 2017-2019, The Linux Foundation. All rights reserved.
+ * Copyright (C) 2021 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -178,17 +179,6 @@ struct cam_vfe_clock_update_args {
 };
 
 /*
- * struct cam_vfe_fps_config_args:
- *
- * @node_res:                Resource to get the fps value
- * @fps:                     FPS value to configure EPOCH
- */
-struct cam_vfe_fps_config_args {
-	struct cam_isp_resource_node      *node_res;
-	uint32_t                           fps;
-};
-
-/*
  * struct cam_vfe_bw_update_args:
  *
  * @node_res:             Resource to get the BW
@@ -200,7 +190,6 @@ struct cam_vfe_bw_update_args {
 	struct cam_isp_resource_node      *node_res;
 	uint64_t                           camnoc_bw_bytes;
 	uint64_t                           external_bw_bytes;
-	uint64_t                           external_bw_bytes_ab;
 };
 
 /*
@@ -256,9 +245,13 @@ struct cam_vfe_top_irq_evt_payload {
 	uint32_t                   error_type;
 	bool                       enable_reg_dump;
 	struct cam_isp_timestamp   ts;
+<<<<<<< HEAD
 #ifdef CONFIG_MACH_XIAOMI_SDMMAGPIE
 	uint64_t                   boot_time;
 #endif
+=======
+	uint64_t                   boot_time;
+>>>>>>> e56f393482c5... Add drivers/media/platform/msm/ modifications
 };
 
 /*
@@ -286,7 +279,6 @@ struct cam_vfe_bus_irq_evt_payload {
 	uint32_t                    error_type;
 	struct cam_isp_timestamp    ts;
 	void                       *ctx;
-	uint32_t                    enable_dump;
 };
 
 /*

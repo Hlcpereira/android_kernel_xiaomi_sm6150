@@ -1,4 +1,5 @@
-/* Copyright (c) 2017-2020, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2017-2019, The Linux Foundation. All rights reserved.
+ * Copyright (C) 2021 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -109,11 +110,15 @@ int cam_packet_util_get_kmd_buffer(struct cam_packet *packet,
 	}
 
 	if ((packet->kmd_cmd_buf_index < 0) ||
+<<<<<<< HEAD
 #ifdef CONFIG_MACH_XIAOMI_SDMMAGPIE
 		(packet->kmd_cmd_buf_index > packet->num_cmd_buf)) {
 #else
 		(packet->kmd_cmd_buf_index >= packet->num_cmd_buf)) {
 #endif
+=======
+		(packet->kmd_cmd_buf_index > packet->num_cmd_buf)) {
+>>>>>>> e56f393482c5... Add drivers/media/platform/msm/ modifications
 		CAM_ERR(CAM_UTIL, "Invalid kmd buf index: %d",
 			packet->kmd_cmd_buf_index);
 		return -EINVAL;
@@ -173,7 +178,7 @@ rel_kmd_buf:
 }
 
 int cam_packet_util_process_patches(struct cam_packet *packet,
-	int32_t iommu_hdl, int32_t sec_mmu_hdl, int pf_dump_flag)
+	int32_t iommu_hdl, int32_t sec_mmu_hdl)
 {
 	struct cam_patch_desc *patch_desc = NULL;
 	dma_addr_t iova_addr;
@@ -181,20 +186,16 @@ int cam_packet_util_process_patches(struct cam_packet *packet,
 	uint32_t   temp;
 	uint32_t  *dst_cpu_addr;
 	uint32_t  *src_buf_iova_addr;
-	size_t     dst_buf_len = 0;
+	size_t     dst_buf_len;
 	size_t     src_buf_size;
 	int        i;
 	int        rc = 0;
 	int32_t    hdl;
-	uint64_t   requestId;
-	uint32_t   num_patches;
 
 	/* process patch descriptor */
 	patch_desc = (struct cam_patch_desc *)
 			((uint32_t *) &packet->payload +
 			packet->patch_offset/4);
-	requestId = packet->header.request_id;
-	num_patches = packet->num_patches;
 	CAM_DBG(CAM_UTIL, "packet = %pK patch_desc = %pK size = %lu",
 			(void *)packet, (void *)patch_desc,
 			sizeof(struct cam_patch_desc));
@@ -205,16 +206,7 @@ int cam_packet_util_process_patches(struct cam_packet *packet,
 		rc = cam_mem_get_io_buf(patch_desc[i].src_buf_hdl,
 			hdl, &iova_addr, &src_buf_size);
 		if (rc < 0) {
-			CAM_ERR(CAM_UTIL,
-				"unable to get src buf address ReqId: %llu, num_patches = %d",
-				requestId, num_patches);
-			CAM_ERR(CAM_UTIL,
-				"i = %d patch info = %x %x %x %x src_bfsz:0x%x",
-				i, patch_desc[i].dst_buf_hdl,
-				patch_desc[i].dst_offset,
-				patch_desc[i].src_buf_hdl,
-				patch_desc[i].src_offset,
-				(uint32_t)src_buf_size);
+			CAM_ERR(CAM_UTIL, "unable to get src buf address");
 			return rc;
 		}
 		src_buf_iova_addr = (uint32_t *)iova_addr;
@@ -223,37 +215,18 @@ int cam_packet_util_process_patches(struct cam_packet *packet,
 		rc = cam_mem_get_cpu_buf(patch_desc[i].dst_buf_hdl,
 			&cpu_addr, &dst_buf_len);
 		if (rc < 0 || !cpu_addr || (dst_buf_len == 0)) {
-			CAM_ERR(CAM_UTIL,
-				"unable to get dst buf address ReqId: %llu, num_patches = %d",
-				requestId, num_patches);
-			CAM_ERR(CAM_UTIL,
-				"i = %d patch info = %x %x %x %x dst_bfsz:0x%x",
-				i, patch_desc[i].dst_buf_hdl,
-				patch_desc[i].dst_offset,
-				patch_desc[i].src_buf_hdl,
-				patch_desc[i].src_offset,
-				(uint32_t)dst_buf_len);
+			CAM_ERR(CAM_UTIL, "unable to get dst buf address");
 			return rc;
 		}
 		dst_cpu_addr = (uint32_t *)cpu_addr;
 
-		CAM_DBG(CAM_UTIL,
-			"ReqId: %llu, i = %d patch info = %x %x %x %x",
-			requestId, i, patch_desc[i].dst_buf_hdl,
-			patch_desc[i].dst_offset,
+		CAM_DBG(CAM_UTIL, "i = %d patch info = %x %x %x %x", i,
+			patch_desc[i].dst_buf_hdl, patch_desc[i].dst_offset,
 			patch_desc[i].src_buf_hdl, patch_desc[i].src_offset);
 
 		if ((size_t)patch_desc[i].src_offset >= src_buf_size) {
 			CAM_ERR(CAM_UTIL,
-				"Invalid src buf patch offset ReqId: %llu, num_patches = %d",
-				requestId, num_patches);
-			CAM_ERR(CAM_UTIL,
-				"i = %d patch info = %x %x %x %x src_bfsz:0x%x",
-				i, patch_desc[i].dst_buf_hdl,
-				patch_desc[i].dst_offset,
-				patch_desc[i].src_buf_hdl,
-				patch_desc[i].src_offset,
-				(uint32_t)src_buf_size);
+				"Invalid src buf patch offset");
 			return -EINVAL;
 		}
 
@@ -261,15 +234,7 @@ int cam_packet_util_process_patches(struct cam_packet *packet,
 			((dst_buf_len - sizeof(void *)) <
 			(size_t)patch_desc[i].dst_offset)) {
 			CAM_ERR(CAM_UTIL,
-				"Invalid dst buf patch offset ReqId: %llu, num_patches = %d",
-				requestId, num_patches);
-			CAM_ERR(CAM_UTIL,
-				"i = %d patch info = %x %x %x %x dst_bfsz:0x%x",
-				i, patch_desc[i].dst_buf_hdl,
-				patch_desc[i].dst_offset,
-				patch_desc[i].src_buf_hdl,
-				patch_desc[i].src_offset,
-				(uint32_t)dst_buf_len);
+				"Invalid dst buf patch offset");
 			return -EINVAL;
 		}
 
@@ -286,14 +251,6 @@ int cam_packet_util_process_patches(struct cam_packet *packet,
 		if (cam_mem_put_cpu_buf(patch_desc[i].dst_buf_hdl))
 			CAM_WARN(CAM_UTIL, "unable to put dst buf address:0x%x",
 				patch_desc[i].dst_buf_hdl);
-
-		if (pf_dump_flag) {
-			CAM_INFO(CAM_UTIL,
-				"patch[%d]: patched addr 0x%x sz 0x%x offset:0x%x",
-				i, *((uint64_t *)dst_cpu_addr),
-				(uint32_t)src_buf_size,
-				patch_desc[i].src_offset);
-		}
 	}
 
 	return rc;
@@ -397,6 +354,7 @@ rel_cmd_buf:
 
 	return rc;
 }
+<<<<<<< HEAD
 
 int32_t cam_packet_validate_plane_size(
 	struct cam_buf_io_cfg *io_cfg,
@@ -521,3 +479,5 @@ int32_t cam_packet_validate_plane_size(
 	}
 	return rc;
 }
+=======
+>>>>>>> e56f393482c5... Add drivers/media/platform/msm/ modifications

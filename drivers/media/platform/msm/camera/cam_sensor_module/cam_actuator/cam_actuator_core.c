@@ -1,4 +1,5 @@
-/* Copyright (c) 2017-2019, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
+ * Copyright (C) 2021 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -786,7 +787,7 @@ int32_t cam_actuator_driver_cmd(struct cam_actuator_ctrl_t *a_ctrl,
 		bridge_params.v4l2_sub_dev_flag = 0;
 		bridge_params.media_entity_flag = 0;
 		bridge_params.priv = a_ctrl;
-		bridge_params.dev_id = CAM_ACTUATOR;
+
 		actuator_acq_dev.device_handle =
 			cam_create_device_hdl(&bridge_params);
 		a_ctrl->bridge_intf.device_hdl = actuator_acq_dev.device_handle;
@@ -936,7 +937,10 @@ int32_t cam_actuator_driver_cmd(struct cam_actuator_ctrl_t *a_ctrl,
 		}
 	}
 		break;
+<<<<<<< HEAD
 #ifdef CONFIG_MACH_XIAOMI_SDMMAGPIE
+=======
+>>>>>>> e56f393482c5... Add drivers/media/platform/msm/ modifications
 	case CAM_READ_REG: {
 		struct cam_sensor_i2c_reg_setting user_reg_setting;
 		struct cam_sensor_i2c_reg_array *i2c_reg_setting;
@@ -988,7 +992,10 @@ int32_t cam_actuator_driver_cmd(struct cam_actuator_ctrl_t *a_ctrl,
 		kfree(i2c_reg_setting);
 	}
 	break;
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> e56f393482c5... Add drivers/media/platform/msm/ modifications
 	default:
 		CAM_ERR(CAM_ACTUATOR, "Invalid Opcode %d", cmd->op_code);
 	}

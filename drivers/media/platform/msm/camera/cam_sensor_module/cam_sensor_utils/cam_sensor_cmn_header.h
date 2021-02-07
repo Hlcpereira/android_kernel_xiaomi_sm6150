@@ -1,4 +1,5 @@
-/* Copyright (c) 2017-2019, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
+ * Copyright (C) 2021 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -132,7 +133,6 @@ enum sensor_sub_module {
 	SUB_MODULE_CSID,
 	SUB_MODULE_CSIPHY,
 	SUB_MODULE_OIS,
-	SUB_MODULE_IR_LED,
 	SUB_MODULE_EXT,
 #ifdef CONFIG_SOFTLED_CAMERA
 	SUB_MODULE_LED_SOFT,
@@ -153,6 +153,12 @@ enum msm_camera_power_seq_type {
 	SENSOR_STANDBY,
 	SENSOR_CUSTOM_GPIO1,
 	SENSOR_CUSTOM_GPIO2,
+#ifdef CONFIG_LDO_WL2866D
+	SENSOR_WL2866D_DVDD1, //12
+	SENSOR_WL2866D_DVDD2,
+	SENSOR_WL2866D_AVDD1,
+	SENSOR_WL2866D_AVDD2,
+#endif
 	SENSOR_SEQ_TYPE_MAX,
 };
 
@@ -178,8 +184,13 @@ enum cam_eeprom_packet_opcodes {
 
 enum cam_ois_packet_opcodes {
 	CAM_OIS_PACKET_OPCODE_INIT,
+<<<<<<< HEAD
 	CAM_OIS_PACKET_OPCODE_OIS_CONTROL,
 	CAM_OIS_PACKET_OPCODE_OIS_GETDATA
+=======
+    CAM_OIS_PACKET_OPCODE_OIS_CONTROL,
+    CAM_OIS_PACKET_OPCODE_OIS_GETDATA
+>>>>>>> e56f393482c5... Add drivers/media/platform/msm/ modifications
 };
 
 enum msm_bus_perf_setting {
@@ -368,9 +379,14 @@ struct cam_sensor_board_info {
 	int32_t  subdev_intf[SUB_MODULE_MAX];
 	const char *misc_regulator;
 	struct cam_sensor_power_ctrl_t power_info;
+<<<<<<< HEAD
 #ifdef CONFIG_MACH_XIAOMI_F7B
 	uint16_t camera_id;
 	const char *sensorName;
+=======
+#ifdef CONFIG_LDO_WL2866D
+    uint16_t camera_id;
+>>>>>>> e56f393482c5... Add drivers/media/platform/msm/ modifications
 #endif
 };
 

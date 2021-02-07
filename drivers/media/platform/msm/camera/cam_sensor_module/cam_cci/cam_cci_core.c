@@ -1,4 +1,5 @@
-/* Copyright (c) 2017-2019, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
+ * Copyright (C) 2021 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -444,16 +445,25 @@ static int32_t cam_cci_calc_cmd_len(struct cci_device *cci_dev,
 	struct cam_cci_ctrl *c_ctrl, uint32_t cmd_size,
 	 struct cam_sensor_i2c_reg_array *i2c_cmd, uint32_t *pack)
 {
+<<<<<<< HEAD
 #ifndef CONFIG_MACH_XIAOMI_SDMMAGPIE
 	uint8_t i;
+=======
+#if 0 //disable I2C writing optimization due to OIS
+	uint8_t i;
+	struct cam_sensor_i2c_reg_array *cmd = i2c_cmd;
+>>>>>>> e56f393482c5... Add drivers/media/platform/msm/ modifications
 #endif
 	uint32_t len = 0;
 	uint8_t data_len = 0, addr_len = 0;
 	uint8_t pack_max_len;
 	struct cam_sensor_i2c_reg_setting *msg;
+<<<<<<< HEAD
 #ifndef CONFIG_MACH_XIAOMI_SDMMAGPIE
 	struct cam_sensor_i2c_reg_array *cmd = i2c_cmd;
 #endif
+=======
+>>>>>>> e56f393482c5... Add drivers/media/platform/msm/ modifications
 	uint32_t size = cmd_size;
 
 	if (!cci_dev || !c_ctrl) {
@@ -475,7 +485,11 @@ static int32_t cam_cci_calc_cmd_len(struct cci_device *cci_dev,
 		len = data_len + addr_len;
 		pack_max_len = size < (cci_dev->payload_size-len) ?
 			size : (cci_dev->payload_size-len);
+<<<<<<< HEAD
 #ifndef CONFIG_MACH_XIAOMI_SDMMAGPIE
+=======
+#if 0 //disable I2C writing optimization due to OIS
+>>>>>>> e56f393482c5... Add drivers/media/platform/msm/ modifications
 		for (i = 0; i < pack_max_len;) {
 			if (cmd->delay || ((cmd - i2c_cmd) >= (cmd_size - 1)))
 				break;
@@ -1261,7 +1275,11 @@ static int32_t cam_cci_read(struct v4l2_subdev *sd,
 		goto rel_mutex_q;
 	}
 
+<<<<<<< HEAD
 #ifdef CONFIG_MACH_XIAOMI_SDMMAGPIE
+=======
+	//hardcode: add 50us delay only for the thermal register of ut ak7377
+>>>>>>> e56f393482c5... Add drivers/media/platform/msm/ modifications
 	if (c_ctrl->cci_info->sid == UT_AK7377_SID
 	    && read_cfg->addr == UT_AK7377_THERMAL_REG) {
 		val = (uint32_t)((50 * cci_dev->cycles_per_us) / 0x100);
@@ -1276,7 +1294,10 @@ static int32_t cam_cci_read(struct v4l2_subdev *sd,
 			goto rel_mutex_q;
 		}
 	}
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> e56f393482c5... Add drivers/media/platform/msm/ modifications
 
 	val = CCI_I2C_READ_CMD | (read_cfg->num_byte << 4);
 	rc = cam_cci_write_i2c_queue(cci_dev, val, master, queue);
@@ -1734,7 +1755,10 @@ int32_t cam_cci_core_cfg(struct v4l2_subdev *sd,
 		mutex_unlock(&cci_dev->init_mutex);
 		break;
 	case MSM_CCI_I2C_READ:
+<<<<<<< HEAD
 #ifdef CONFIG_MACH_XIAOMI_SDMMAGPIE
+=======
+>>>>>>> e56f393482c5... Add drivers/media/platform/msm/ modifications
 		mutex_lock(&cci_dev->init_mutex);
 		rc = cam_cci_read_bytes(sd, cci_ctrl);
 		if (rc < 0) {
@@ -1744,9 +1768,12 @@ int32_t cam_cci_core_cfg(struct v4l2_subdev *sd,
 				cci_ctrl->cci_info->cci_i2c_master);
 		}
 		mutex_unlock(&cci_dev->init_mutex);
+<<<<<<< HEAD
 #else
 		rc = cam_cci_read_bytes(sd, cci_ctrl);
 #endif
+=======
+>>>>>>> e56f393482c5... Add drivers/media/platform/msm/ modifications
 		break;
 	case MSM_CCI_I2C_WRITE:
 	case MSM_CCI_I2C_WRITE_SEQ:
@@ -1754,7 +1781,10 @@ int32_t cam_cci_core_cfg(struct v4l2_subdev *sd,
 	case MSM_CCI_I2C_WRITE_SYNC:
 	case MSM_CCI_I2C_WRITE_ASYNC:
 	case MSM_CCI_I2C_WRITE_SYNC_BLOCK:
+<<<<<<< HEAD
 #ifdef CONFIG_MACH_XIAOMI_SDMMAGPIE
+=======
+>>>>>>> e56f393482c5... Add drivers/media/platform/msm/ modifications
 		mutex_lock(&cci_dev->init_mutex);
 		rc = cam_cci_write(sd, cci_ctrl);
 		if (rc < 0) {
@@ -1765,9 +1795,12 @@ int32_t cam_cci_core_cfg(struct v4l2_subdev *sd,
 				cci_ctrl->cci_info->cci_i2c_master);
 		}
 		mutex_unlock(&cci_dev->init_mutex);
+<<<<<<< HEAD
 #else
 		rc = cam_cci_write(sd, cci_ctrl);
 #endif
+=======
+>>>>>>> e56f393482c5... Add drivers/media/platform/msm/ modifications
 		break;
 	case MSM_CCI_GPIO_WRITE:
 		break;
