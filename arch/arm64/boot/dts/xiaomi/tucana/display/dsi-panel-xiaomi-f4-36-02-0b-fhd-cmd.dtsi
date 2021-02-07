@@ -1,4 +1,5 @@
 /* Copyright (c) 2019, The Linux Foundation. All rights reserved.
+ * Copyright (C) 2021 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -37,14 +38,15 @@
 		qcom,mdss-dsi-lane-2-state;
 		qcom,mdss-dsi-lane-3-state;
 		qcom,mdss-brightness-max-level = <2047>;
+		qcom,mdss-dsi-bl-default-level = <536>;
 		qcom,bl-update-flag = "delay_until_first_frame";
 		qcom,mdss-dsi-dma-trigger = "trigger_sw";
 		qcom,mdss-dsi-mdp-trigger = "none";
 		qcom,mdss-dsi-bl-dcs-type-ss-ea;
 		qcom,mdss-dsi-bl-xiaomi-f4-36-flag;
 		qcom,mdss-dsi-reset-sequence = <1 10>, <0 10>, <1 10>;
-		qcom,mdss-pan-physical-width-dimension = <69>;
-		qcom,mdss-pan-physical-height-dimension = <149>;
+		qcom,mdss-pan-physical-width-dimension = <690>;
+		qcom,mdss-pan-physical-height-dimension = <1490>;
 		qcom,mdss-dsi-te-pin-select = <1>;
 		qcom,mdss-dsi-wr-mem-start = <0x2c>;
 		qcom,mdss-dsi-wr-mem-continue = <0x3c>;
@@ -59,6 +61,7 @@
 		qcom,mdss-dsi-panel-blackness-level = <3230>;
 
 		qcom,dispparam-enabled;
+		qcom,mdss-dsi-panel-fod-dimlayer-enabled;
 		qcom,mdss-panel-on-dimming-delay = <200>;
 		/* IRQF_ONESHOT | IRQF_TRIGGER_FALLING */
 		qcom,esd-err-irq-gpio = <&tlmm 32 0x2002>;
@@ -94,22 +97,29 @@
 					39 01 00 00 00 00 02 FC 02
 					/* -- Page 0 -- */
 					39 01 00 00 00 00 06 F0 55 AA 52 08 00
+					/* -- dimming 16 -- */
+					39 01 00 00 00 00 05 B2 19 00 10 10
+					/* -- 4 Pulse */
+					39 00 00 00 00 00 02 6F 09
+					39 01 00 00 00 00 02 B2 20
 					/* Pulse Threshold Setting */
-					15 01 00 00 00 00 02 6F 09
-					39 01 00 00 00 00 03 B2 20 19
+					15 01 00 00 00 00 02 6F 13
+					39 01 00 00 00 00 03 B2 03 B8
 					/* 0x56: cmd mode */
 					39 00 00 00 00 00 02 C0 56
 					/* SWIRE map_C seting */
 					39 00 00 00 00 00 02 6F 06
-					39 00 00 00 00 00 0C B5 2B 1C 00 00 00 2B 1C 00 00 00 00
+					39 00 00 00 00 00 0B B5 2B 1C 00 00 00 2B 1C 00 00 00
 					/* ESD */
 					39 00 00 00 00 00 03 BE 0E 0B
 					39 00 00 00 00 00 02 6F 05
-					39 01 00 00 00 00 02 BF 1F
+					39 01 00 00 00 00 02 BE 8A
 					/* -- Page 1 -- */
 					39 01 00 00 00 00 06 F0 55 AA 52 08 01
 					39 00 00 00 00 00 02 6F 03
 					39 00 00 00 00 00 02 CF 09
+					39 00 00 00 00 00 02 6F 02
+					39 00 00 00 00 00 02 D2 22
 					/* VDC setting code */
 					39 00 00 00 00 00 07 B6 00 98 00 98 00 98
 					/* VDC_OST_OFF=0 (vmode on) */
@@ -199,12 +209,20 @@
 				qcom,mdss-dsi-dispparam-dimmingoff-command-state = "dsi_lp_mode";
 
 				qcom,mdss-dsi-doze-hbm-command = [
+					/* 20h----dimming off */
+					39 00 00 00 00 00 02 53 20
+					/* Exit HBM Mode */
+					39 01 00 00 00 00 03 51 00 1F
 					39 00 00 00 00 00 02 6F 02
 					39 00 00 00 00 00 03 51 00 EE
 					39 00 00 00 00 00 02 39 00
 					39 00 00 00 00 00 02 65 01
 					15 01 00 00 00 00 02 2C 00];
 				qcom,mdss-dsi-doze-lbm-command = [
+					/* 20h----dimming off */
+					39 00 00 00 00 00 02 53 20
+					/* Exit HBM Mode */
+					39 01 00 00 00 00 03 51 00 1F
 					39 00 00 00 00 00 02 6F 02
 					39 00 00 00 00 00 03 51 00 0A
 					39 00 00 00 00 00 02 39 00
@@ -234,77 +252,25 @@
 				qcom,mdss-dsi-dispparam-dc-on-command = [
 					/* Page 0 */
 					39 00 00 00 00 00 06 F0 55 AA 52 08 00
-					/* B2 register 9 bit */
-					39 00 00 00 00 00 02 6F 09
-					/* 1 Pluse */
-					39 00 00 00 00 00 02 B2 00
-					/* Make 51 00-7FF only call Band7 */
-					39 00 00 00 00 00 25 B3 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 07 FF 0B FF 0B FF 0F FF
-					/* Page 4 */
-					39 00 00 00 00 00 06 F0 55 AA 52 08 04
-					/* D0 register 5 bit */
-					39 00 00 00 00 00 02 6F 05
-					/* Gain */
-					39 00 00 00 00 00 06 D0 0B 17 20 40 80
-					/* D0 register 10 bit */
-					39 00 00 00 00 00 02 6F 0A
-					/* Gain / 51 value */
-					39 00 00 00 00 00 0B D0 00 B6 00 F8 01 5C 01 E6 07 FF
-					/* R-Gain */
-					39 00 00 00 00 00 1A D2 08 08 08 08 08 20 20 20 20 20 2a 2a 2a 2a 2a 40 40 40 40 40 40 40 40 40 40
-					/* D2 register 25 bit */
-					39 00 00 00 00 00 02 6F 19
-					/* G-Gain */
-					39 00 00 00 00 00 1A D2 08 08 08 08 08 20 20 20 20 20 2a 2a 2a 2a 2a 40 40 40 40 40 40 40 40 40 40
-					/* D2 register 50 bit */
-					39 00 00 00 00 00 02 6F 32
-					/* G-Gain */
-					39 00 00 00 00 00 1A D2 08 08 08 08 08 20 20 20 20 20 2a 2a 2a 2a 2a 40 40 40 40 40 40 40 40 40 40
-					/* Page 0 */
-					39 00 00 00 00 00 06 F0 55 AA 52 08 00
 					/* Enable DC */
-					39 01 00 00 00 00 02 B2 C0];
-				qcom,mdss-dsi-dispparam-dc-on-command-state = "dsi_lp_mode";
-				qcom,mdss-dsi-dispparam-dc-off-command = [
-					/* dimming off */
-					39 01 00 00 10 00 02 53 20
-					/* backlight set 0 */
-					39 01 00 00 80 00 03 51 00 00
-					/* Page 0 */
-					39 00 00 00 00 00 06 F0 55 AA 52 08 00
-					/* B2 register 9 bit */
-					39 00 00 00 00 00 02 6F 09
-					/* 4 Pluse */
-					39 00 00 00 00 00 02 B2 20
-					/* PWM-51 */
-					39 00 00 00 00 00 25 B3 00 02 00 0A 00 0A 00 24 00 24 00 5E 00 5E 00 EE 00 EE 01 E6 01 E6 03 B8 03 B8 07 FF 07 FF 0B FF 0B FF 0F FF
-					/* Page 4 */
+					39 00 00 00 00 00 0B B2 C9 00 10 10 00 08 08 00 00 00
+					/* Make 51 00-7FF only call Band7 */
+					39 01 00 00 00 00 25 B3 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 07 FF 0B FF 0B FF 0F FF
 					39 00 00 00 00 00 06 F0 55 AA 52 08 04
-					/* D0 register 5 bit */
-					39 00 00 00 00 00 02 6F 05
-					/* Gain */
-					39 00 00 00 00 00 06 D0 0B 17 20 40 80
-					/* D0 register 10 bit */
-					39 00 00 00 00 00 02 6F 0A
-					/* Gain / 51 value */
-					39 00 00 00 00 00 0B D0 00 0A 00 5E 00 EE 01 E6 07 FF
-					/* R-Gain */
-					39 00 00 00 00 00 1A D2 00 08 00 08 08 10 50 40 3C 20 60 60 50 40 2A 60 60 50 50 40 60 60 54 50 40
-					/* D2 register 25 bit */
-					39 00 00 00 00 00 02 6F 19
-					/* G-Gain */
-					39 00 00 00 00 00 1A D2 00 08 00 08 08 10 50 40 3C 20 60 60 50 40 2A 60 60 50 50 40 60 60 54 50 40
-					/* D2 register 50 bit */
-					39 00 00 00 00 00 02 6F 32
-					/* G-Gain */
-					39 00 00 00 00 00 1A D2 00 08 00 08 08 10 50 40 3C 20 60 60 50 40 2A 60 60 50 50 40 60 60 54 50 40
+					39 00 00 00 00 00 15 D0 00 1f 00 00 85 0B 17 20 40 80 00 B6 00 F8 01 5C 01 E6 07 FF
+					39 01 00 00 00 00 4C D2 08 08 08 08 08 20 20 20 20 20 2a 2a 2a 2a 2a 40 40 40 40 40 40 40 40 40 40 08 08 08 08 08 20 20 20 20 20 2a 2a 2a 2a 2a 40 40 40 40 40 40 40 40 40 40 08 08 08 08 08 20 20 20 20 20 2a 2a 2a 2a 2a 40 40 40 40 40 40 40 40 40 40];
+				qcom,mdss-dsi-dispparam-dc-on-command-state = "dsi_hs_mode";
+				qcom,mdss-dsi-dispparam-dc-off-command = [
 					/* Page 0 */
 					39 00 00 00 00 00 06 F0 55 AA 52 08 00
-					/* Enable PWM */
-					39 01 00 00 00 00 02 B2 01
-					/* dimming on */
-					39 01 00 00 00 00 02 53 28];
-				qcom,mdss-dsi-dispparam-dc-off-command-state = "dsi_lp_mode";
+					/* -- Enable PWM & dimming 16 -- */
+					39 00 00 00 00 00 0B B2 59 00 10 10 00 08 08 00 00 20
+					/* PWM-51 */
+					39 01 00 00 00 00 25 B3 00 02 00 0A 00 0A 00 24 00 24 00 5E 00 5E 00 EE 00 EE 01 E6 01 E6 03 B8 03 B8 07 FF 07 FF 0B FF 0B FF 0F FF
+					39 00 00 00 00 00 06 F0 55 AA 52 08 04
+					39 00 00 00 00 00 15 D0 00 1f 00 00 85 0b 17 20 40 80 00 0a 00 5e 00 ee 01 e6 07 ff
+					39 01 00 00 00 00 4C D2 00 08 00 08 08 10 50 40 3c 20 60 60 50 40 2a 60 60 50 50 40 60 60 54 50 40 00 08 00 08 08 10 50 40 3c 20 60 60 50 40 2a 60 60 50 50 40 60 60 54 50 40 00 08 00 08 08 10 50 40 3c 20 60 60 50 40 2a 60 60 50 50 40 60 60 54 50 40];
+				qcom,mdss-dsi-dispparam-dc-off-command-state = "dsi_hs_mode";
 
 				/*
 				qcom,mdss-dsi-dispparam-crc-srgb-on-command = [

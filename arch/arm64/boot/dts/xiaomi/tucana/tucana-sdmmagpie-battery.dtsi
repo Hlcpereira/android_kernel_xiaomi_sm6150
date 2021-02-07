@@ -8,7 +8,6 @@
 #include <dt-bindings/iio/qcom,spmi-vadc.h>
 
 &mtp_batterydata {
-        #include "battery/batterydata-F4-sunwoda-5000mah.dtsi"
         #include "battery/batterydata-F4-sunwoda-5270mah.dtsi"
 };
 

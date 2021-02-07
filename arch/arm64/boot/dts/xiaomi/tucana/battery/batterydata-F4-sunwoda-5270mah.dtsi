@@ -1,17 +1,18 @@
 qcom,4135378_Xiaomi_F4_Sunwoda_5270mAH_PM7150 {
 	/* 4135378_Xiaomi_F4_Sunwoda_5270mAH_PM7150_averaged_MasterSlave_Aug12th2019 */
-	qcom,max-voltage-uv = <4450000>;
+	qcom,max-voltage-uv = <4400000>;
+	qcom,ffc-max-voltage-uv = <4450000>;
 	qcom,fg-cc-cv-threshold-uv = <4390000>;
 	qcom,fastchg-current-ma = <5900>;
 	qcom,jeita-fcc-ranges = <0  50   1000000
 				51  100  2500000
 				101 150  3600000
-				151 450  5900000
-				451 580  2800000>;
+				151 480  5900000
+				481 580  2800000>;
 	qcom,jeita-fv-ranges = <0   50  4400000
 				51  100  4400000
 				101 150  4400000
-				151 480  4400000
+				151 480  4450000
 				481 580  4100000>;
 	qcom,dynamic-fv-ranges = <0    100  4400000
 				101  200  4380000
@@ -42,6 +43,10 @@ qcom,4135378_Xiaomi_F4_Sunwoda_5270mAH_PM7150 {
 	qcom,temp-comp-enable;
 	qcom,temp-comp-hysteresis = <200>;
 	qcom,max-temp-comp-value = <6>;
+	mi,six-pin-battery;
+	mi,use-bq-pump;
+	mi,fcc-limited-by-soc;
+	mi,ffc-iterm-change-by-temp;
 	qcom,fcc1-temp-lut {
 		qcom,lut-col-legend = <0 10 25 40 50>;
 		qcom,lut-data = <5045 5145 5239 5272 5283>;

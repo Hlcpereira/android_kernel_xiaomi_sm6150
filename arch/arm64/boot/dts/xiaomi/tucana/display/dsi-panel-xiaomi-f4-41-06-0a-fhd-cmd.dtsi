@@ -1,4 +1,5 @@
 /* Copyright (c) 2019, The Linux Foundation. All rights reserved.
+ * Copyright (C) 2021 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -36,14 +37,15 @@
 		qcom,mdss-dsi-lane-2-state;
 		qcom,mdss-dsi-lane-3-state;
 		qcom,mdss-brightness-max-level = <2047>;
+		qcom,mdss-dsi-bl-default-level = <536>;
 		qcom,bl-update-flag = "delay_until_first_frame";
 		qcom,mdss-dsi-dma-trigger = "trigger_sw";
 		qcom,mdss-dsi-mdp-trigger = "none";
 		qcom,mdss-dsi-bl-dcs-type-ss-ea;
 		qcom,mdss-dsi-bl-xiaomi-f4-41-flag;
 		qcom,mdss-dsi-reset-sequence = <0 1>, <1 10>;
-		qcom,mdss-pan-physical-width-dimension = <69>;
-		qcom,mdss-pan-physical-height-dimension = <149>;
+		qcom,mdss-pan-physical-width-dimension = <690>;
+		qcom,mdss-pan-physical-height-dimension = <1490>;
 		qcom,mdss-dsi-te-pin-select = <1>;
 		qcom,mdss-dsi-wr-mem-start = <0x2c>;
 		qcom,mdss-dsi-wr-mem-continue = <0x3c>;
@@ -58,6 +60,7 @@
 		qcom,mdss-dsi-panel-blackness-level = <3230>;
 
 		qcom,dispparam-enabled;
+		qcom,mdss-dsi-panel-fod-dimlayer-enabled;
 		qcom,mdss-panel-on-dimming-delay = <200>;
 		/* IRQF_ONESHOT | IRQF_TRIGGER_FALLING */
 		qcom,esd-err-irq-gpio = <&tlmm 32 0x2002>;
@@ -86,6 +89,9 @@
 				qcom,mdss-dsi-panel-jitter = <0x5 0x1>;
 				qcom,mdss-dsi-on-command = [
 					39 00 00 00 00 00 02 FE 40
+					39 00 00 00 00 00 02 70 04
+					39 01 00 00 00 00 02 4D 32
+					39 00 00 00 00 00 02 FE 40
 					39 00 00 00 00 00 02 BE 17
 					39 00 00 00 00 00 02 BF BB /* 560 nit */
 					39 00 00 00 00 00 02 C0 DD /* 580 nit */
@@ -107,7 +113,7 @@
 				qcom,mdss-dsi-off-command-state = "dsi_lp_mode";
 
 				qcom,mdss-dsi-dispparam-hbm-fod-on-command = [
-					39 00 00 00 00 00 02 FE A0
+					39 01 00 00 03 00 02 FE A0
 					39 00 00 00 00 00 02 25 06
 					39 00 00 00 00 00 02 FE A0
 					39 00 00 00 00 00 02 1F 08
@@ -120,12 +126,14 @@
 					39 00 00 00 00 00 02 FE 00
 					39 01 00 00 00 00 02 53 E0];
 				qcom,mdss-dsi-dispparam-hbm-fod-off-command = [
-					39 00 00 00 00 00 02 FE 00
+					39 01 00 00 03 00 02 FE 00
 					39 01 00 00 00 00 02 53 20];
 				qcom,mdss-dsi-dispparam-hbm-fod-on-command-state = "dsi_hs_mode";
 				qcom,mdss-dsi-dispparam-hbm-fod-off-command-state = "dsi_hs_mode";
 
 				qcom,mdss-dsi-doze-hbm-command = [
+					39 00 00 00 00 00 02 FE 00
+					39 01 00 00 00 00 02 53 20
 					39 01 00 00 00 00 02 FE 00
 					39 01 00 00 00 00 02 39 00 /* enter aod */
 					39 01 00 00 00 00 02 FE 72
@@ -139,6 +147,8 @@
 					39 01 00 00 00 00 02 FE A0
 					39 01 00 00 00 00 02 25 16];
 				qcom,mdss-dsi-doze-lbm-command = [
+					39 00 00 00 00 00 02 FE 00
+					39 01 00 00 00 00 02 53 20
 					39 01 00 00 00 00 02 FE 00
 					39 01 00 00 00 00 02 39 00 /* enter aod */
 					39 01 00 00 00 00 02 FE 72
