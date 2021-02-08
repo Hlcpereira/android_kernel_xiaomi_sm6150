@@ -1,5 +1,9 @@
 /* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
+<<<<<<< HEAD
  * Copyright (C) 2020 XiaoMi, Inc.
+=======
+ * Copyright (C) 2021 XiaoMi, Inc.
+>>>>>>> b066b985321a... Add drivers/media/platform/msm/ modifications
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -20,6 +24,10 @@
 #include "cam_debug_util.h"
 #include "cam_common_util.h"
 #include "cam_packet_util.h"
+
+#include <soc/qcom/socinfo.h>
+
+extern uint32_t hw_version_platform;
 
 /**
  * cam_eeprom_read_memory() - read map data into buffer
@@ -47,6 +55,8 @@ static int cam_eeprom_read_memory(struct cam_eeprom_ctrl_t *e_ctrl,
 
 	eb_info = (struct cam_eeprom_soc_private *)e_ctrl->soc_info.soc_private;
 
+	CAM_DBG(CAM_EEPROM, "hw_version_platform = %d", hw_version_platform);
+
 	for (j = 0; j < block->num_map; j++) {
 		CAM_DBG(CAM_EEPROM, "slave-addr = 0x%X", emap[j].saddr);
 		if (emap[j].saddr) {
@@ -67,7 +77,22 @@ static int cam_eeprom_read_memory(struct cam_eeprom_ctrl_t *e_ctrl,
 			i2c_reg_settings.size = 1;
 			i2c_reg_array.reg_addr = emap[j].page.addr;
 			i2c_reg_array.reg_data = emap[j].page.data;
-			i2c_reg_array.delay = emap[j].page.delay;
+			/**
+			 * toco s5k5e9 read otp need delay 1ms after write 0x0A00,
+			 * hardcode here temporary for the kernel driver may add
+			 * delay for all write operation which cause read failed.
+			 **/
+			if (i2c_reg_array.reg_addr == 0x0A00 && i2c_reg_array.reg_data == 0x01
+					&& (hw_version_platform == HARDWARE_PLATFORM_TOCO)) {
+				CAM_ERR(CAM_EEPROM, "add 1ms delay for otp read.");
+				i2c_reg_array.delay = 1200;
+			} else if (i2c_reg_array.reg_addr == 0x0100 && i2c_reg_array.reg_data == 0x01
+					&& (hw_version_platform == HARDWARE_PLATFORM_TOCO)) {
+				CAM_ERR(CAM_EEPROM, "add 50ms delay for otp read.");
+				i2c_reg_array.delay = 52000;
+			} else {
+				i2c_reg_array.delay = emap[j].page.delay;
+			}
 			i2c_reg_settings.reg_setting = &i2c_reg_array;
 			rc = camera_io_dev_write(&e_ctrl->io_master_info,
 				&i2c_reg_settings);
@@ -444,6 +469,7 @@ static int32_t cam_eeprom_parse_memory_map(
 		CAM_ERR(CAM_EEPROM, "not enough buffer");
 		return -EINVAL;
 	}
+
 	switch (cmm_hdr->cmd_type) {
 	case CAMERA_SENSOR_CMD_TYPE_I2C_RNDM_WR:
 		i2c_random_wr = (struct cam_cmd_i2c_random_wr *)cmd_buf;

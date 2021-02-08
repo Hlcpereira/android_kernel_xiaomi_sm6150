@@ -1,5 +1,9 @@
 /* Copyright (c) 2017-2019, The Linux Foundation. All rights reserved.
+<<<<<<< HEAD
  * Copyright (C) 2020 XiaoMi, Inc.
+=======
+ * Copyright (C) 2021 XiaoMi, Inc.
+>>>>>>> b066b985321a... Add drivers/media/platform/msm/ modifications
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -30,6 +34,27 @@ struct sync_device *sync_dev;
  */
 static bool trigger_cb_without_switch;
 
+<<<<<<< HEAD
+=======
+void cam_sync_print_fence_table(void)
+{
+	int cnt;
+
+	for (cnt = 0; cnt < CAM_SYNC_MAX_OBJS; cnt++) {
+		spin_lock_bh(&sync_dev->row_spinlocks[cnt]);
+		if (test_bit(cnt, sync_dev->bitmap)) {
+			CAM_INFO(CAM_SYNC, "row[%d], name[%s], type[%d], state[%d], ref_cnt[%d]",
+				sync_dev->sync_table[cnt].sync_id,
+				sync_dev->sync_table[cnt].name,
+				sync_dev->sync_table[cnt].type,
+				sync_dev->sync_table[cnt].state,
+				sync_dev->sync_table[cnt].ref_cnt);
+		}
+		spin_unlock_bh(&sync_dev->row_spinlocks[cnt]);
+	}
+}
+
+>>>>>>> b066b985321a... Add drivers/media/platform/msm/ modifications
 int cam_sync_create(int32_t *sync_obj, const char *name)
 {
 	int rc;
