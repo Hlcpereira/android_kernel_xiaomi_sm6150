@@ -2,7 +2,11 @@
  * Definitions for working with the Flattened Device Tree data format
  *
  * Copyright 2009 Benjamin Herrenschmidt, IBM Corp
+<<<<<<< HEAD
  * Copyright (C) 2020 XiaoMi, Inc.
+=======
+ * Copyright (C) 2021 XiaoMi, Inc.
+>>>>>>> aed6f8a0fd5a... Add include/ modifications
  * benh@kernel.crashing.org
  *
  * This program is free software; you can redistribute it and/or

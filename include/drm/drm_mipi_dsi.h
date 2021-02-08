@@ -2,7 +2,11 @@
  * MIPI DSI Bus
  *
  * Copyright (C) 2012-2013, Samsung Electronics, Co., Ltd.
+<<<<<<< HEAD
  * Copyright (C) 2020 XiaoMi, Inc.
+=======
+ * Copyright (C) 2021 XiaoMi, Inc.
+>>>>>>> aed6f8a0fd5a... Add include/ modifications
  * Andrzej Hajda <a.hajda@samsung.com>
  *
  * This program is free software; you can redistribute it and/or modify

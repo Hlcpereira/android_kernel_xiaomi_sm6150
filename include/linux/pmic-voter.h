@@ -1,5 +1,9 @@
 /* Copyright (c) 2015-2016,2019 The Linux Foundation. All rights reserved.
+<<<<<<< HEAD
  * Copyright (C) 2020 XiaoMi, Inc.
+=======
+ * Copyright (C) 2021 XiaoMi, Inc.
+>>>>>>> aed6f8a0fd5a... Add include/ modifications
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and

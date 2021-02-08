@@ -1,6 +1,10 @@
 /*
  * Copyright (c) 2009-2019, The Linux Foundation. All rights reserved.
+<<<<<<< HEAD
  * Copyright (C) 2020 XiaoMi, Inc.
+=======
+ * Copyright (C) 2021 XiaoMi, Inc.
+>>>>>>> aed6f8a0fd5a... Add include/ modifications
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -214,9 +218,18 @@ enum pmic_model {
 };
 
 #define HARDWARE_PLATFORM_UNKNOWN 0
+<<<<<<< HEAD
 
 #define HARDWARE_PLATFORM_DAVINCI  5
 #define HARDWARE_PLATFORM_PHOENIX  7
+=======
+#define HARDWARE_PLATFORM_AQUILA  1
+
+#define HARDWARE_PLATFORM_DAVINCI  5
+#define HARDWARE_PLATFORM_TUCANA   6
+#define HARDWARE_PLATFORM_PHOENIX  7
+#define HARDWARE_PLATFORM_TOCO  8
+>>>>>>> aed6f8a0fd5a... Add include/ modifications
 #define HW_MAJOR_VERSION_SHIFT 16
 #define HW_MAJOR_VERSION_MASK  0xFFFF0000
 #define HW_MINOR_VERSION_SHIFT 0

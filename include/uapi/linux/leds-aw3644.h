@@ -1,6 +1,10 @@
 /*
 * Copyright (C) 2012 Texas Instruments
+<<<<<<< HEAD
 * Copyright (C) 2020 XiaoMi, Inc.
+=======
+* Copyright (C) 2021 XiaoMi, Inc.
+>>>>>>> aed6f8a0fd5a... Add include/ modifications
 *
 * License Terms: GNU General Public License v2
 *

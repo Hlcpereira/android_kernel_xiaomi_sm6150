@@ -1,7 +1,11 @@
 /* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
 /*
  * Copyright (c) 2014-2015, Linux Foundation.
+<<<<<<< HEAD
  * Copyright (C) 2020 XiaoMi, Inc.
+=======
+ * Copyright (C) 2021 XiaoMi, Inc.
+>>>>>>> aed6f8a0fd5a... Add include/ modifications
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License

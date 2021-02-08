@@ -1,6 +1,10 @@
 /*
  * Copyright (C) 2013 Red Hat
+<<<<<<< HEAD
  * Copyright (C) 2020 XiaoMi, Inc.
+=======
+ * Copyright (C) 2021 XiaoMi, Inc.
+>>>>>>> aed6f8a0fd5a... Add include/ modifications
  * Author: Rob Clark <robdclark@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a

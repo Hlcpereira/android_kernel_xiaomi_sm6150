@@ -4,7 +4,11 @@
  * Author: Dan Murphy <dmurphy@ti.com>
  *
  * Copyright:   (C) 2014 Texas Instruments, Inc.
+<<<<<<< HEAD
  * Copyright (C) 2020 XiaoMi, Inc.
+=======
+ * Copyright (C) 2021 XiaoMi, Inc.
+>>>>>>> aed6f8a0fd5a... Add include/ modifications
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
