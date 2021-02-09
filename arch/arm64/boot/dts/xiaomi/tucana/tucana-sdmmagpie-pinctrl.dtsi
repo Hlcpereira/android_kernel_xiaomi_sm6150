@@ -739,3 +739,7 @@
 		output-low;
 		};
 };
+
+&icnss {
+    /delete-property/ vdd-3.3-ch1-supply;
+};
