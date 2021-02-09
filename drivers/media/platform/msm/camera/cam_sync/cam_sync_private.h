@@ -32,7 +32,7 @@
 
 #define CAM_SYNC_OBJ_NAME_LEN           64
 #ifdef CONFIG_MACH_XIAOMI_SDMMAGPIE
-#define CAM_SYNC_MAX_OBJS               1280
+#define CAM_SYNC_MAX_OBJS               1600
 #else
 #define CAM_SYNC_MAX_OBJS               1024
 #endif
